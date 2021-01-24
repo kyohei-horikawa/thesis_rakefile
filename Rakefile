@@ -38,7 +38,7 @@ __*
 EOS
 
   `git clone git@github.com:kyohei-horikawa/thesis_header.git && rm -rf /thesis_header/.git && mv thesis_header header`
-  `mkdir cover body abstract acknowledge reference appendix fig program pptx thesis`
+  `mkdir cover body abstract acknowledge reference appendix fig program pptx thesis keynote`
   `touch cover/cover.tex`
   `touch body/body.org`
   `touch appendix/appendix.org`
@@ -89,6 +89,13 @@ task :mkpdf do
     File.open("#{target_file}/#{target_file}.tex", "w") do |f|
       lines.each { |line| f.print line }
     end #余分を削除したものを新たに書き込み
+  end
+
+  appendix_lines = File.readlines("appendix/appendix.tex")
+  appendix_lines.unshift("\\begin{appendix}")
+  appendix_lines.push("\\end{appendix}")
+  File.open("appendix/appendix.tex", "w") do |f|
+    appendix_lines.each { |line| f.print line }
   end
 
   thesis_setup = convert_tex() #pdfの元を作成 thesis.tex
